@@ -52,7 +52,7 @@ class RameezDashboard extends HTMLElement {
     async fetchfromServer() {
         const response = await fetch("https://redutv-api.vg.no/corona/v1/sheets/norway-table-overview?region=county", {
             method: 'GET',
-            mode: 'cors'
+            mode: 'no-cors'
         });
         if (response.status === '200') {
             const json = await response.json();
