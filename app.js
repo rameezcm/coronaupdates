@@ -54,13 +54,16 @@ class RameezDashboard extends HTMLElement {
             method: 'GET',
             mode: 'no-cors'
         });
-        const json = await response.json();
-        this.answer = json;
-        this.querySelector("#cases").innerText = this.answer.totals.confirmed
-        this.querySelector("#todayCases").innerText = this.answer.totals.changes.newToday
-        this.querySelector("#deaths").innerText = this.answer.totals.dead
-        this.querySelector("#todayDeaths").innerText = this.answer.totals.changes.deathsToday
-        this.querySelector("#recovered").innerText = this.answer.totals.recovered
+        if (response.status === '200') {
+            const json = await response.json();
+            this.answer = json;
+            this.querySelector("#cases").innerText = this.answer.totals.confirmed
+            this.querySelector("#todayCases").innerText = this.answer.totals.changes.newToday
+            this.querySelector("#deaths").innerText = this.answer.totals.dead
+            this.querySelector("#todayDeaths").innerText = this.answer.totals.changes.deathsToday
+            this.querySelector("#recovered").innerText = this.answer.totals.recovered
+        }
+
         const response1 = await fetch("https://corona.lmao.ninja/countries/India", {
             method: 'GET',
             headers: {
