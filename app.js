@@ -1,7 +1,7 @@
 class RameezDashboard extends HTMLElement {
     constructor() {
         super()
-        setInterval(() => this.fetchfromServer(), 1000); // (5)
+        setInterval(() => this.fetchfromServer(), 90000); // (5)
 
     }
 
