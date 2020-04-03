@@ -57,7 +57,7 @@ class RameezDashboard extends HTMLElement {
         const xhr = new XMLHttpRequest();
         const url = 'https://redutv-api.vg.no/corona/v1/sheets/norway-table-overview?region=county';
 
-        xhr.open('GET', url);
+        xhr.open('GET', url , true);
         xhr.onreadystatechange = function() {
             // In local files, status is 0 upon success in Mozilla Firefox
             if (xhr.readyState === XMLHttpRequest.DONE) {
