@@ -50,9 +50,9 @@ class RameezDashboard extends HTMLElement {
 
 
     async fetchfromServer() {
-        const response = await fetch("https://redutv-api.vg.no/corona/v1/sheets/norway-table-overview?region=county",{
+        const response = await fetch("https://cors-anywhere.herokuapp.com/https://redutv-api.vg.no/corona/v1/sheets/norway-table-overview?region=county",{
             method: 'GET',
-            mode:'no-cors',
+            mode:'cors',
             headers: {
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': 'https://rameezcm.github.io'
