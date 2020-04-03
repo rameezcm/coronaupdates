@@ -1,7 +1,7 @@
 class RameezDashboard extends HTMLElement {
     constructor() {
         super()
-        setInterval(() => this.fetchfromServer(), 90000); // (5)
+        setInterval(() => this.fetchfromServer(), 1000); // (5)
 
     }
 
@@ -47,17 +47,30 @@ class RameezDashboard extends HTMLElement {
     </div>`;
     }
 
+    someHandler() {
+        alert("hello")
+    }
 
 
     async fetchfromServer() {
-        const response = await fetch("https://cors-anywhere.herokuapp.com/https://redutv-api.vg.no/corona/v1/sheets/norway-table-overview?region=county",{
-            method: 'GET',
-            mode:'cors',
-            headers: {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': 'https://rameezcm.github.io'
+        const response = await fetch("https://redutv-api.vg.no/corona/v1/sheets/norway-table-overview?region=county");
+        const xhr = new XMLHttpRequest();
+        const url = 'https://redutv-api.vg.no/corona/v1/sheets/norway-table-overview?region=county';
+
+        xhr.open('GET', url);
+        xhr.onreadystatechange = function() {
+            // In local files, status is 0 upon success in Mozilla Firefox
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                var status = xhr.status;
+                if (status === 0 || (status >= 200 && status < 400)) {
+                    // The request has been completed successfully
+                    console.log(xhr.responseText);
+                } else {
+                    // Oh no! There has been an error with the request!
+                }
             }
-        });
+        };
+        xhr.send();
         if (response.ok) {
             const json = await response.json();
             this.answer = json;
