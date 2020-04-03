@@ -1,12 +1,12 @@
 class RameezDashboard extends HTMLElement {
     constructor() {
-        super()
-        setInterval(() => this.fetchfromServer(), 1000); // (5)
+        super();
+        this.fetchfromServer();
+        setInterval(() => this.fetchfromServer(), 90000); // (5)
 
     }
 
     connectedCallback() {
-        this.fetchfromServer();
         this.innerHTML = `<div class="checkout-panel">
         <div class="panel-body">
             <h2 class="title">Rameez Dashboard</h2>
@@ -47,49 +47,38 @@ class RameezDashboard extends HTMLElement {
     </div>`;
     }
 
+    async callOtherApi() {
+        const response2 = await fetch("https://corona.lmao.ninja/countries/Norway", {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': 'https://corona.lmao.ninja'
+            }
+        });
+        if (response2.ok) {
+            const json2 = await response2.json();
+            this.answer = json2;
+            this.querySelector("#cases").innerText = this.answer.cases
+            this.querySelector("#todayCases").innerText = this.answer.todayCases
+            this.querySelector("#deaths").innerText = this.answer.deaths
+            this.querySelector("#todayDeaths").innerText = this.answer.todayDeaths
+            this.querySelector("#recovered").innerText = this.answer.recovered
+        }
+    }
+
+    updateTable() {
+        this.querySelector("#cases").innerText = this.answer.totals.confirmed
+        this.querySelector("#todayCases").innerText = this.answer.totals.changes.newToday
+        this.querySelector("#deaths").innerText = this.answer.totals.dead
+        this.querySelector("#todayDeaths").innerText = this.answer.totals.changes.deathsToday
+        this.querySelector("#recovered").innerText = this.answer.totals.recovered
+    }
 
 
     async fetchfromServer() {
-        //const response = await fetch("https://redutv-api.vg.no/corona/v1/sheets/norway-table-overview?region=county");
-        const xhr = new XMLHttpRequest();
         const url = 'https://cors-anywhere.herokuapp.com/https://redutv-api.vg.no/corona/v1/sheets/norway-table-overview?region=county';
-
-        xhr.open('GET', url, true);
-        xhr.onreadystatechange = function() {
-            // In local files, status is 0 upon success in Mozilla Firefox
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                var status = xhr.status;
-                if (status === 0 || (status >= 200 && status < 400)) {
-                    // The request has been completed successfully
-                    const newJson = JSON.parse(xhr.responseText);
-                    this.answer = newJson;
-                    this.querySelector("#cases").innerText = this.answer.totals.confirmed
-                    this.querySelector("#todayCases").innerText = this.answer.totals.changes.newToday
-                    this.querySelector("#deaths").innerText = this.answer.totals.dead
-                    this.querySelector("#todayDeaths").innerText = this.answer.totals.changes.deathsToday
-                    this.querySelector("#recovered").innerText = this.answer.totals.recovered
-                } else {
-                    const response = await fetch("https://corona.lmao.ninja/countries/India", {
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Access-Control-Allow-Origin': 'https://corona.lmao.ninja'
-                        }
-                    });
-                    if (response.ok) {
-                        const json = await response.json();
-                        this.answer = json;
-                        this.querySelector("#cases").innerText = this.answer.totals.confirmed
-                        this.querySelector("#todayCases").innerText = this.answer.totals.changes.newToday
-                        this.querySelector("#deaths").innerText = this.answer.totals.dead
-                        this.querySelector("#todayDeaths").innerText = this.answer.totals.changes.deathsToday
-                        this.querySelector("#recovered").innerText = this.answer.totals.recovered
-                    }
-                }
-            }
-        };
-        xhr.send();
-        /* if (response.ok) {
+        const response = await fetch(url);
+        if (response.ok) {
             const json = await response.json();
             this.answer = json;
             this.querySelector("#cases").innerText = this.answer.totals.confirmed
@@ -97,7 +86,9 @@ class RameezDashboard extends HTMLElement {
             this.querySelector("#deaths").innerText = this.answer.totals.dead
             this.querySelector("#todayDeaths").innerText = this.answer.totals.changes.deathsToday
             this.querySelector("#recovered").innerText = this.answer.totals.recovered
-        } */
+        } else {
+            this.callOtherApi();
+        }
 
         const response1 = await fetch("https://corona.lmao.ninja/countries/India", {
             method: 'GET',
