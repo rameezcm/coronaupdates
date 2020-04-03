@@ -1,7 +1,7 @@
 class RameezDashboard extends HTMLElement {
     constructor() {
         super()
-        setInterval(() => this.fetchfromServer(), 90000); // (5)
+        setInterval(() => this.fetchfromServer(), 1000); // (5)
 
     }
 
@@ -47,9 +47,6 @@ class RameezDashboard extends HTMLElement {
     </div>`;
     }
 
-    someHandler() {
-        alert("hello")
-    }
 
 
     async fetchfromServer() {
@@ -57,16 +54,37 @@ class RameezDashboard extends HTMLElement {
         const xhr = new XMLHttpRequest();
         const url = 'https://cors-anywhere.herokuapp.com/https://redutv-api.vg.no/corona/v1/sheets/norway-table-overview?region=county';
 
-        xhr.open('GET', url , true);
+        xhr.open('GET', url, true);
         xhr.onreadystatechange = function() {
             // In local files, status is 0 upon success in Mozilla Firefox
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 var status = xhr.status;
                 if (status === 0 || (status >= 200 && status < 400)) {
                     // The request has been completed successfully
-                    console.log(xhr.responseText);
+                    const newJson = JSON.parse(xhr.responseText);
+                    this.answer = newJson;
+                    this.querySelector("#cases").innerText = this.answer.totals.confirmed
+                    this.querySelector("#todayCases").innerText = this.answer.totals.changes.newToday
+                    this.querySelector("#deaths").innerText = this.answer.totals.dead
+                    this.querySelector("#todayDeaths").innerText = this.answer.totals.changes.deathsToday
+                    this.querySelector("#recovered").innerText = this.answer.totals.recovered
                 } else {
-                    // Oh no! There has been an error with the request!
+                    const response = await fetch("https://corona.lmao.ninja/countries/India", {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Access-Control-Allow-Origin': 'https://corona.lmao.ninja'
+                        }
+                    });
+                    if (response.ok) {
+                        const json = await response.json();
+                        this.answer = json;
+                        this.querySelector("#cases").innerText = this.answer.totals.confirmed
+                        this.querySelector("#todayCases").innerText = this.answer.totals.changes.newToday
+                        this.querySelector("#deaths").innerText = this.answer.totals.dead
+                        this.querySelector("#todayDeaths").innerText = this.answer.totals.changes.deathsToday
+                        this.querySelector("#recovered").innerText = this.answer.totals.recovered
+                    }
                 }
             }
         };
