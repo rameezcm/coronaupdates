@@ -53,7 +53,7 @@ class RameezDashboard extends HTMLElement {
 
 
     async fetchfromServer() {
-        const response = await fetch("https://redutv-api.vg.no/corona/v1/sheets/norway-table-overview?region=county");
+        //const response = await fetch("https://redutv-api.vg.no/corona/v1/sheets/norway-table-overview?region=county");
         const xhr = new XMLHttpRequest();
         const url = 'https://redutv-api.vg.no/corona/v1/sheets/norway-table-overview?region=county';
 
@@ -71,7 +71,7 @@ class RameezDashboard extends HTMLElement {
             }
         };
         xhr.send();
-        if (response.ok) {
+        /* if (response.ok) {
             const json = await response.json();
             this.answer = json;
             this.querySelector("#cases").innerText = this.answer.totals.confirmed
@@ -79,7 +79,7 @@ class RameezDashboard extends HTMLElement {
             this.querySelector("#deaths").innerText = this.answer.totals.dead
             this.querySelector("#todayDeaths").innerText = this.answer.totals.changes.deathsToday
             this.querySelector("#recovered").innerText = this.answer.totals.recovered
-        }
+        } */
 
         const response1 = await fetch("https://corona.lmao.ninja/countries/India", {
             method: 'GET',
