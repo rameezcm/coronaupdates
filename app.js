@@ -55,7 +55,7 @@ class RameezDashboard extends HTMLElement {
     async fetchfromServer() {
         //const response = await fetch("https://redutv-api.vg.no/corona/v1/sheets/norway-table-overview?region=county");
         const xhr = new XMLHttpRequest();
-        const url = 'https://redutv-api.vg.no/corona/v1/sheets/norway-table-overview?region=county';
+        const url = 'https://cors-anywhere.herokuapp.com/https://redutv-api.vg.no/corona/v1/sheets/norway-table-overview?region=county';
 
         xhr.open('GET', url , true);
         xhr.onreadystatechange = function() {
