@@ -58,7 +58,7 @@ class RameezDashboard extends HTMLElement {
                 'Access-Control-Allow-Origin': 'https://rameezcm.github.io'
             }
         });
-        if (response.status === '200') {
+        if (response.ok) {
             const json = await response.json();
             this.answer = json;
             this.querySelector("#cases").innerText = this.answer.totals.confirmed
