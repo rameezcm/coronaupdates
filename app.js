@@ -50,13 +50,7 @@ class RameezDashboard extends HTMLElement {
 
 
     async fetchfromServer() {
-        const response = await fetch("https://redutv-api.vg.no/corona/v1/sheets/norway-table-overview?region=county", {
-            method: 'GET',
-            mode: 'no-cors',
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        });
+        const response = await fetch("https://redutv-api.vg.no/corona/v1/sheets/norway-table-overview?region=county");
         if (response.status === '200') {
             const json = await response.json();
             this.answer = json;
