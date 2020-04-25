@@ -198,3 +198,7 @@ th[scope=row] {
 body {
     padding-bottom: 90vh;
 }
+
+.wrapper {
+width : 60% !important;
+}
