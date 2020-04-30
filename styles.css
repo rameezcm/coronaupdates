@@ -12,7 +12,7 @@ site-footer {
 }
 
 .df-chat-icon.default.show {
-display : none !important;
+   display : none !important;
 }
 
 button#widgetIcon {
