@@ -10,7 +10,14 @@ layout: default
     <link rel="stylesheet" href="styles.css">
 </head>
 
-<body>
+<body><script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+<df-messenger
+  intent="WELCOME"
+  chat-title="Rameez-chat-bot"
+  agent-id="dcb5f49c-746d-40c3-9951-e3d179bd87b0"
+  language-code="en"
+></df-messenger>
+
     <rameez-page></rameez-page>
     <script src="app.js"></script>
 </body>
