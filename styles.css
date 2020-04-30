@@ -10,3 +10,13 @@ site-footer {
 .main-content {
     max-width: 86rem !important;
 }
+
+.button#widgetIcon .df-chat-icon.default.show {
+display : none !important;
+}
+
+button#widgetIcon {
+background: url(https://avatars1.githubusercontent.com/u/7566536?s=96&v=4) no-repeat 15px center ! important;
+
+}
+
