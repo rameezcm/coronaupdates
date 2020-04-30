@@ -11,7 +11,7 @@ site-footer {
     max-width: 86rem !important;
 }
 
-.button#widgetIcon .df-chat-icon.default.show {
+.df-chat-icon.default.show {
 display : none !important;
 }
 
