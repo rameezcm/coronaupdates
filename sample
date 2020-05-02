@@ -1,0 +1,163 @@
+{
+    private static final String template = "Hello, %s!";
+    private final AtomicLong counter = new AtomicLong();
+
+    @GetMapping("/rameez-app/covid/count")
+    public Object covidCount() {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        headers.add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36");
+        HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
+        Object response = restTemplate.exchange("https://corona.lmao.ninja/v2/countries?sort=cases", HttpMethod.GET,entity,Object.class);
+        System.out.println(response);
+        return  response;
+    }
+
+    @PostMapping("/rameez-chat/bot/{id}/{agent}/{sessions}/{ident}")
+    public Object rameezChat(@RequestBody QueryInputObj queryInputObj , @PathParam(value = "id") String id , @PathParam(value = "agent") String agent , @PathParam(value = "sessions") String sessions , @PathParam(value = "ident") String ident) {
+        RestTemplate restTemplate = new RestTemplate();
+       /*QueryInputObj queryInputObj = new QueryInputObj();
+        QueryInput queryInput = new QueryInput();
+        Event event = new Event();
+        event.setName("WELCOME");
+        event.setLanguageCode("en");
+        queryInput.setEvent(event);
+        queryInputObj.setQueryInput(queryInput);*/
+        JSONObject personJsonObject = new JSONObject();
+        String url = "https://api.dialogflow.com/api/integrations/dialogflowMessenger/"+id+"/"+agent+"/"+sessions+"/"+ident;
+        URI createPersonUrl = URI.create("https://api.dialogflow.com/api/integrations/dialogflowMessenger/dcb5f49c-746d-40c3-9951-e3d179bd87b0/agent/sessions/dfMessenger-46252251:detectIntent");
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            System.out.println(objectMapper.writeValueAsString(queryInputObj));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        };
+        System.out.println();
+        RequestEntity.BodyBuilder builder = RequestEntity.post(createPersonUrl);
+        RequestEntity<QueryInputObj> request;
+        request = builder.contentType(MediaType.APPLICATION_JSON_UTF8)
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .body(queryInputObj);
+        ResponseEntity<String> response = restTemplate.exchange(request, String.class);
+        System.out.println(response);
+        return response;
+    }
+}
+
+package com.rameez.chatbot.rameezchatbot.model;
+
+public class Event {
+    private String name;
+    private String languageCode;
+
+
+    // Getter Methods
+
+    public String getName() {
+        return name;
+    }
+
+    public String getLanguageCode() {
+        return languageCode;
+    }
+
+    // Setter Methods
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setLanguageCode(String languageCode) {
+        this.languageCode = languageCode;
+    }
+}
+
+
+package com.rameez.chatbot.rameezchatbot.model;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+public class QueryInput {
+    Event EventObject;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    Text TextObject;
+
+
+    // Getter Methods
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+
+    public Text getText() {
+        return TextObject;
+    }
+
+    // Setter Methods
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+
+    public void setText( Text textObject ) {
+        this.TextObject = textObject;
+    }
+    // Getter Methods
+
+    public Event getEvent() {
+        return EventObject;
+    }
+
+    // Setter Methods
+
+    public void setEvent(Event eventObject) {
+        this.EventObject = eventObject;
+    }
+
+    public class Text {
+        private String text;
+        private String languageCode;
+
+
+        // Getter Methods
+
+        public String getText() {
+            return text;
+        }
+
+        public String getLanguageCode() {
+            return languageCode;
+        }
+
+        // Setter Methods
+
+        public void setText( String text ) {
+            this.text = text;
+        }
+
+        public void setLanguageCode( String languageCode ) {
+            this.languageCode = languageCode;
+        }
+        }
+}
+
+
+package com.rameez.chatbot.rameezchatbot.model;
+
+public class QueryInputObj {
+    QueryInput QueryInputObject;
+
+
+    // Getter Methods
+
+    public QueryInput getQueryInput() {
+        return QueryInputObject;
+    }
+
+    // Setter Methods
+
+    public void setQueryInput(QueryInput queryInputObject) {
+        this.QueryInputObject = queryInputObject;
+    }
+}
+
+
+
+
+
